@@ -1,0 +1,19 @@
+{
+  "name": "memes",
+  "version": "0.1.0",
+  "description": "memes",
+  "workspaces": [
+    "packages/*"
+  ],
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/eloiqs/memes.git"
+  },
+  "author": "Eloi Simard-Quesnel",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/eloiqs/memes/issues"
+  },
+  "homepage": "https://github.com/eloiqs/memes#readme"
+}
