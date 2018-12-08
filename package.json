@@ -15,5 +15,12 @@
   "bugs": {
     "url": "https://github.com/eloiqs/memes/issues"
   },
-  "homepage": "https://github.com/eloiqs/memes#readme"
+  "homepage": "https://github.com/eloiqs/memes#readme",
+  "scripts": {
+    "precommit": "lerna run --concurrency 1 --stream precommit"
+  },
+  "devDependencies": {
+    "husky": "^1.2.0",
+    "lerna": "^3.6.0"
+  }
 }

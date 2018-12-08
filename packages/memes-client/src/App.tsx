@@ -19,6 +19,7 @@ const GlobalStyle = createGlobalStyle`
         monospace;
     }
 `
+
 const client = new ApolloClient({
   uri: 'https://w5xlvm3vzz.lp.gql.zone/graphql'
 })

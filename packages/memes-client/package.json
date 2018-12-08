@@ -25,7 +25,8 @@
     "prettier": "prettier --write",
     "prettier:all": "yarn prettier \"{,!(node_modules)/**/}*\"",
     "lint": "tslint --fix",
-    "lint:all": "yarn lint -p ."
+    "lint:all": "yarn lint -p .",
+    "precommit": "lint-staged"
   },
   "browserslist": [
     ">0.2%",
@@ -34,17 +35,11 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "husky": "^1.2.0",
     "lint-staged": "^8.1.0",
     "prettier": "^1.15.3",
     "tslint": "^5.11.0",
     "tslint-config-prettier": "^1.17.0",
     "tslint-react": "^3.6.0"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
   },
   "lint-staged": {
     "concurrent": false,
