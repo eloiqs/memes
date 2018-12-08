@@ -1,4 +1,6 @@
+import ApolloClient from 'apollo-boost'
 import React from 'react'
+import { ApolloProvider } from 'react-apollo'
 import ReactDOM from 'react-dom'
 import { createGlobalStyle } from 'styled-components'
 import * as serviceWorker from './serviceWorker'
@@ -19,11 +21,16 @@ const GlobalStyle = createGlobalStyle`
         monospace;
     }
 `
+const client = new ApolloClient({
+  uri: 'https://w5xlvm3vzz.lp.gql.zone/graphql'
+})
 
 export const App = () => (
   <>
-    <GlobalStyle />
-    App
+    <ApolloProvider client={client}>
+      <GlobalStyle />
+      App
+    </ApolloProvider>
   </>
 )
 
