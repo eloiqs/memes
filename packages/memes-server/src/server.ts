@@ -1,15 +1,7 @@
 import { GraphQLServer } from 'graphql-yoga'
+import getSchema from 'memes-graph'
 
-const typeDefs = `
-  type Query {
-    hello(name: String): String!
-  }
-`
-
-const resolvers = {
-  Query: {
-    hello: (_: any, { name }: any) => `Hello ${name || 'World'}`
-  }
+export default async function bootstrap() {
+  const schema = await getSchema()
+  return new GraphQLServer({ schema })
 }
-
-export default new GraphQLServer({ typeDefs, resolvers })
