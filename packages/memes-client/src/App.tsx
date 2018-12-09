@@ -1,6 +1,4 @@
-import ApolloClient from 'apollo-boost'
 import React from 'react'
-import { ApolloProvider } from 'react-apollo'
 import { createGlobalStyle } from 'styled-components'
 import MemesQuery from './queries/MemesQuery'
 
@@ -21,10 +19,6 @@ const GlobalStyle = createGlobalStyle`
     }
 `
 
-const client = new ApolloClient({
-  uri: 'http://localhost:4000'
-})
-
 function renderMemeImage(
   url: string,
   memeWidth: number,
@@ -37,6 +31,7 @@ function renderMemeImage(
   if (horizontalRatio < verticalRatio) {
     return (
       <img
+        role="img"
         src={url}
         width={Math.round(memeWidth * horizontalRatio)}
         height={Math.round(memeHeight * horizontalRatio)}
@@ -45,6 +40,7 @@ function renderMemeImage(
   }
   return (
     <img
+      role="img"
       src={url}
       width={Math.round(memeWidth * verticalRatio)}
       height={Math.round(memeHeight * verticalRatio)}
@@ -53,7 +49,7 @@ function renderMemeImage(
 }
 
 export const App = () => (
-  <ApolloProvider client={client}>
+  <>
     <GlobalStyle />
     <MemesQuery>
       {({ memes }) =>
@@ -65,5 +61,5 @@ export const App = () => (
         ))
       }
     </MemesQuery>
-  </ApolloProvider>
+  </>
 )
