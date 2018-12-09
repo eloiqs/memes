@@ -2,6 +2,7 @@ import ApolloClient from 'apollo-boost'
 import React from 'react'
 import { ApolloProvider } from 'react-apollo'
 import { createGlobalStyle } from 'styled-components'
+import MemesQuery from './queries/MemesQuery'
 
 const GlobalStyle = createGlobalStyle`
     body {
@@ -21,12 +22,48 @@ const GlobalStyle = createGlobalStyle`
 `
 
 const client = new ApolloClient({
-  uri: 'https://w5xlvm3vzz.lp.gql.zone/graphql'
+  uri: 'http://localhost:4000'
 })
+
+function renderMemeImage(
+  url: string,
+  memeWidth: number,
+  memeHeight: number,
+  targetWidth: number,
+  targetHeight: number
+) {
+  const horizontalRatio = targetWidth / memeWidth
+  const verticalRatio = targetHeight / memeHeight
+  if (horizontalRatio < verticalRatio) {
+    return (
+      <img
+        src={url}
+        width={Math.round(memeWidth * horizontalRatio)}
+        height={Math.round(memeHeight * horizontalRatio)}
+      />
+    )
+  }
+  return (
+    <img
+      src={url}
+      width={Math.round(memeWidth * verticalRatio)}
+      height={Math.round(memeHeight * verticalRatio)}
+    />
+  )
+}
 
 export const App = () => (
   <ApolloProvider client={client}>
     <GlobalStyle />
-    App
+    <MemesQuery>
+      {({ memes }) =>
+        memes.map(meme => (
+          <div key={meme.id}>
+            <h2>{meme.name}</h2>
+            {renderMemeImage(meme.url, meme.width, meme.height, 250, 250)}
+          </div>
+        ))
+      }
+    </MemesQuery>
   </ApolloProvider>
 )
