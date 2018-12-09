@@ -1,6 +1,8 @@
+import { RouteComponentProps, Router } from '@reach/router'
 import React from 'react'
 import { createGlobalStyle } from 'styled-components'
-import MemesQuery from './queries/MemesQuery'
+import MemeEditor from './components/MemeEditor'
+import Memes from './components/Memes'
 
 const GlobalStyle = createGlobalStyle`
     body {
@@ -19,47 +21,21 @@ const GlobalStyle = createGlobalStyle`
     }
 `
 
-function renderMemeImage(
-  url: string,
-  memeWidth: number,
-  memeHeight: number,
-  targetWidth: number,
-  targetHeight: number
-) {
-  const horizontalRatio = targetWidth / memeWidth
-  const verticalRatio = targetHeight / memeHeight
-  if (horizontalRatio < verticalRatio) {
-    return (
-      <img
-        role="img"
-        src={url}
-        width={Math.round(memeWidth * horizontalRatio)}
-        height={Math.round(memeHeight * horizontalRatio)}
-      />
-    )
-  }
-  return (
-    <img
-      role="img"
-      src={url}
-      width={Math.round(memeWidth * verticalRatio)}
-      height={Math.round(memeHeight * verticalRatio)}
-    />
-  )
-}
+const Layout: React.FunctionComponent<RouteComponentProps> = ({ children }) => (
+  <>
+    <h1>App</h1>
+    <main>{children}</main>
+  </>
+)
 
 export const App = () => (
   <>
     <GlobalStyle />
-    <MemesQuery>
-      {({ memes }) =>
-        memes.map(meme => (
-          <div key={meme.id}>
-            <h2>{meme.name}</h2>
-            {renderMemeImage(meme.url, meme.width, meme.height, 250, 250)}
-          </div>
-        ))
-      }
-    </MemesQuery>
+    <Router>
+      <Layout path="/">
+        <Memes path="memes" default={true} />
+        <MemeEditor path="memes/:id" />
+      </Layout>
+    </Router>
   </>
 )
