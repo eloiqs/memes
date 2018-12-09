@@ -1,13 +1,18 @@
+const start = jest.fn()
+jest.doMock('./server/server', () => {
+  return jest.fn(() => Promise.resolve({ start }))
+})
+
 import { mocked } from 'ts-jest/utils'
 import main from './index'
-import _server from './server'
+import _getServer from './server/server'
 
-jest.mock('./server')
-const server = mocked(_server)
+const getServer = mocked(_getServer)
 
 describe('main', () => {
   it('should start the server', async () => {
     await main()
-    expect(server.start).toHaveBeenCalled()
+    expect(getServer).toHaveBeenCalled()
+    expect(start).toHaveBeenCalled()
   })
 })
