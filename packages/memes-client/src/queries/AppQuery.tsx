@@ -34,7 +34,7 @@ export class AppQuery<Data = null, Variables = null> extends React.Component<
   }
 
   defaultRenderNoData() {
-    return <>No Date</>
+    return <>No Data</>
   }
 
   render() {
@@ -54,15 +54,14 @@ export class AppQuery<Data = null, Variables = null> extends React.Component<
           if (networkStatusNode) {
             return networkStatusNode
           }
-          const errorNode = result.error
-            ? (renderError || this.defaultRenderError)(result!.error!, result)
-            : undefined
+          const errorNode =
+            result.error &&
+            (renderError || this.defaultRenderError)(result.error, result)
           if (errorNode) {
             return errorNode
           }
-          const noDataNode = !result.data
-            ? (renderNoData || this.defaultRenderNoData)(result)
-            : undefined
+          const noDataNode =
+            !result.data && (renderNoData || this.defaultRenderNoData)(result)
           if (noDataNode) {
             return noDataNode
           }

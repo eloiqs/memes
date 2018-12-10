@@ -1,10 +1,14 @@
-import { createUnionType } from 'type-graphql'
-import CaptionMemeFailure from './caption-meme-failure'
-import CaptionMemeSuccess from './caption-meme-success'
+import { Field, ObjectType } from 'type-graphql'
 
-const CaptionMemeResponse = createUnionType({
-  name: 'CaptionMemeResponse',
-  types: [CaptionMemeSuccess, CaptionMemeFailure]
-})
+@ObjectType()
+export default class CaptionMemeResponse {
+  @Field()
+  public url!: string
 
-export default CaptionMemeResponse
+  @Field()
+  public pageUrl!: string
+
+  constructor(init?: Partial<CaptionMemeResponse>) {
+    Object.assign(this, init)
+  }
+}

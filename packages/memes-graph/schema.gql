@@ -3,10 +3,6 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
-type CaptionMemeFailure {
-  errorMessage: String!
-}
-
 input CaptionMemeInput {
   templateId: String!
   font: String
@@ -14,9 +10,7 @@ input CaptionMemeInput {
   boxes: [TextBox!]!
 }
 
-union CaptionMemeResponse = CaptionMemeSuccess | CaptionMemeFailure
-
-type CaptionMemeSuccess {
+type CaptionMemeResponse {
   url: String!
   pageUrl: String!
 }
