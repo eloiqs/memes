@@ -9,7 +9,6 @@
     "dotenv": "^6.2.0",
     "graphql-yoga": "^1.16.7",
     "memes-graph": "0.1.0",
-    "querystring": "^0.2.0",
     "ts-node-dev": "^1.0.0-pre.31",
     "typescript": "^3.2.2"
   },

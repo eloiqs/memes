@@ -5,7 +5,9 @@
   "main": "src/index.ts",
   "license": "MIT",
   "dependencies": {
+    "@types/qs": "^6.5.1",
     "axios": "^0.18.0",
+    "qs": "^6.6.0",
     "reflect-metadata": "^0.1.12",
     "type-graphql": "^0.15.0",
     "typescript": "^3.2.2"
