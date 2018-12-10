@@ -3,6 +3,24 @@
 # !!!   DO NOT MODIFY THIS FILE BY YOURSELF   !!!
 # -----------------------------------------------
 
+type CaptionMemeFailure {
+  errorMessage: String!
+}
+
+input CaptionMemeInput {
+  templateId: String!
+  font: String
+  maxFontSize: String
+  boxes: [TextBox!]!
+}
+
+union CaptionMemeResponse = CaptionMemeSuccess | CaptionMemeFailure
+
+type CaptionMemeSuccess {
+  url: String!
+  pageUrl: String!
+}
+
 type Meme {
   id: String!
   name: String!
@@ -11,6 +29,20 @@ type Meme {
   height: Int!
 }
 
+type Mutation {
+  captionMeme(data: CaptionMemeInput!): CaptionMemeResponse!
+}
+
 type Query {
   memes: [Meme!]!
+}
+
+input TextBox {
+  text: String!
+  x: Int
+  y: Int
+  width: Int
+  height: Int
+  color: String
+  outlineColor: String
 }
