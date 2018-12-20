@@ -32,7 +32,7 @@ it('renders a list of memes', async () => {
     </MockedProvider>
   )
   const meme = await waitForElement(() => queryByText('meme1')!.parentElement)
-  const img = meme!.querySelector('img')
+  const img = meme!.querySelector('div')
   expect(img).toHaveAttribute('src', 'some-image')
   expect(img).toHaveAttribute('width', '250')
   expect(img).toHaveAttribute('height', '250')

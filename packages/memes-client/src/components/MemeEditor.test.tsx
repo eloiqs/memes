@@ -46,15 +46,53 @@ const mocks = [
 ]
 
 it('can save an edited meme', async () => {
-  const { queryByRole, queryByText, baseElement } = render(
+  const { queryByTestId, queryByText } = render(
     <MockedProvider mocks={mocks} addTypename={false}>
       <MemeEditor id="meme" />
     </MockedProvider>
   )
-  const saveBtn = await waitForElement(() => queryByRole('button'))
+  const saveBtn = await waitForElement(() => queryByTestId('save'))
   fireEvent.click(saveBtn!)
   const editedMeme = await waitForElement(
     () => queryByText('your meme')!.parentElement
   )
   expect(editedMeme).toBeVisible()
+})
+
+it('can add, edit and remove captions', async () => {
+  const { queryByTestId } = render(
+    <MockedProvider mocks={mocks} addTypename={false}>
+      <MemeEditor id="meme" />
+    </MockedProvider>
+  )
+
+  const addBtn = await waitForElement(() => queryByTestId('add'))
+  fireEvent.click(addBtn!)
+  const captionInput = await waitForElement(() =>
+    queryByTestId('caption-1-input')
+  )
+  fireEvent.change(captionInput!, { target: { value: 'caption 1' } })
+  const caption1 = await waitForElement(() => queryByTestId('caption-1'))
+  expect(caption1).toBeVisible()
+  expect(caption1).toHaveAttribute('x', '50')
+  expect(caption1).toHaveAttribute('y', '20')
+
+  fireEvent.change(captionInput!, { target: { value: 'caption 1 edited' } })
+  expect(caption1!.textContent).toBe('caption 1 edited')
+
+  fireEvent.click(addBtn!)
+  const caption2Input = await waitForElement(() =>
+    queryByTestId('caption-2-input')
+  )
+  fireEvent.change(caption2Input!, { target: { value: 'caption 2' } })
+  const caption2 = await waitForElement(() => queryByTestId('caption-2'))
+  expect(caption2).toBeVisible()
+  expect(caption2).toHaveAttribute('x', '50')
+  expect(caption2).toHaveAttribute('y', '40')
+
+  const removeBtn = await waitForElement(() =>
+    queryByTestId('remove-caption-1')
+  )
+  fireEvent.click(removeBtn!)
+  expect(queryByTestId('caption-1')).toBeNull()
 })

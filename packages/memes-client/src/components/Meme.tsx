@@ -1,55 +1,34 @@
-import { Meme as MemeType } from 'memes-graph'
+import { Meme as MemeModel, TextBox } from 'memes-graph'
 import React from 'react'
+import { Indexed } from '../utils/types'
+import Caption from './Caption'
+import MemeImage from './MemeImage'
 
-interface MemeProps {
+export interface MemeProps {
+  meme: MemeModel
+  captions?: Array<Indexed<TextBox>>
   onMemeClick?(memeId: string): void
-  meme: MemeType
 }
 
-function renderMemeImage(
-  url: string,
-  memeWidth: number,
-  memeHeight: number,
-  targetWidth: number,
-  targetHeight: number
-) {
-  const horizontalRatio = targetWidth / memeWidth
-  const verticalRatio = targetHeight / memeHeight
-  if (horizontalRatio < verticalRatio) {
-    return (
-      <img
-        role="img"
-        src={url}
-        width={Math.round(memeWidth * horizontalRatio)}
-        height={Math.round(memeHeight * horizontalRatio)}
-      />
-    )
-  }
-  return (
-    <img
-      role="img"
-      src={url}
-      width={Math.round(memeWidth * verticalRatio)}
-      height={Math.round(memeHeight * verticalRatio)}
-    />
-  )
-}
+const Meme: React.FunctionComponent<MemeProps> = ({
+  meme,
+  captions = [],
+  onMemeClick
+}) => (
+  <div onClick={() => onMemeClick && onMemeClick(meme.id)}>
+    <h3>{meme.name}</h3>
+    <MemeImage
+      url={meme.url}
+      width={meme.width}
+      height={meme.height}
+      targetWidth={250}
+      targetHeight={250}
+    >
+      {captions.map(caption => (
+        <Caption key={caption.index} caption={caption} />
+      ))}
+    </MemeImage>
+  </div>
+)
 
-export default class Meme extends React.Component<MemeProps> {
-  onClick = () => {
-    if (this.props.onMemeClick) {
-      this.props.onMemeClick(this.props.meme.id)
-    }
-  }
-
-  render() {
-    const { meme } = this.props
-
-    return (
-      <div onClick={this.onClick}>
-        <h3>{meme.name}</h3>
-        {renderMemeImage(meme.url, meme.width, meme.height, 250, 250)}
-      </div>
-    )
-  }
-}
+export default Meme
