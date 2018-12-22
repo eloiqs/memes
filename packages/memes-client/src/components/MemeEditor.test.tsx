@@ -3,6 +3,7 @@ import { MockedProvider } from 'react-apollo/test-utils'
 import { fireEvent, render, waitForElement } from 'react-testing-library'
 import { CAPTION_MEME } from '../mutations/CaptionMemeMutation'
 import { MEMES_QUERY } from '../queries/MemesQuery'
+import { wrapInTestContext } from '../test-utils'
 import MemeEditor from './MemeEditor'
 
 const mocks = [
@@ -46,9 +47,10 @@ const mocks = [
 ]
 
 it('can save an edited meme', async () => {
+  const MemeEditorWithTestContext = wrapInTestContext(MemeEditor)
   const { queryByTestId, queryByText } = render(
     <MockedProvider mocks={mocks} addTypename={false}>
-      <MemeEditor id="meme" />
+      <MemeEditorWithTestContext id="meme" />
     </MockedProvider>
   )
   const saveBtn = await waitForElement(() => queryByTestId('save'))
@@ -60,9 +62,10 @@ it('can save an edited meme', async () => {
 })
 
 it('can add, edit and remove captions', async () => {
+  const MemeEditorWithTestContext = wrapInTestContext(MemeEditor)
   const { queryByTestId } = render(
     <MockedProvider mocks={mocks} addTypename={false}>
-      <MemeEditor id="meme" />
+      <MemeEditorWithTestContext id="meme" />
     </MockedProvider>
   )
 

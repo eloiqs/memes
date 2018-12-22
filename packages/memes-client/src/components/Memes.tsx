@@ -1,7 +1,7 @@
 import { navigate, RouteComponentProps } from '@reach/router'
 import React from 'react'
 import MemesQuery from '../queries/MemesQuery'
-import Meme from './Meme'
+import { Meme } from './Meme'
 
 const Memes: React.FunctionComponent<RouteComponentProps> = () => {
   return (

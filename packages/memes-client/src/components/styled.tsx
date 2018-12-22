@@ -26,8 +26,8 @@ export interface CaptionProps {
 export const Caption = styled.div<CaptionProps>`
   position: absolute;
   cursor: move;
-  top: ${props => props.y || 0 + 'px'};
-  left: ${props => props.x || 0 + 'px'};
+  top: ${props => (props.y || 0) + 'px'};
+  left: ${props => (props.x || 0) + 'px'};
   opacity: ${props => (props.opacity === undefined ? 1 : props.opacity)}
   font-family: impact;
 `

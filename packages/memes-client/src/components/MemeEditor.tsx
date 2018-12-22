@@ -1,10 +1,11 @@
 import { Redirect, RouteComponentProps } from '@reach/router'
+import { XYCoord } from 'dnd-core'
 import { TextBox } from 'memes-graph'
 import React, { useState } from 'react'
 import CaptionMemeMutation from '../mutations/CaptionMemeMutation'
 import MemesQuery from '../queries/MemesQuery'
 import { Indexed } from '../utils/types'
-import Meme from './Meme'
+import { DropTargetMeme, Meme } from './Meme'
 
 interface MemeEditorParams {
   id: string
@@ -60,6 +61,15 @@ const MemeEditor: React.FunctionComponent<
       captions: state.captions.filter(caption => caption.index !== index)
     })
 
+  const updateCaptionCoord = (index: number, { x, y }: XYCoord) => {
+    setState({
+      ...state,
+      captions: state.captions.map(caption =>
+        caption.index === index ? { ...caption, x, y } : caption
+      )
+    })
+  }
+
   return (
     <MemesQuery>
       {({ memes }) => {
@@ -70,7 +80,11 @@ const MemeEditor: React.FunctionComponent<
         return (
           <div>
             <h2>Meme Editor</h2>
-            <Meme meme={meme} captions={state.captions} />
+            <DropTargetMeme
+              meme={meme}
+              captions={state.captions}
+              updateCaptionCoord={updateCaptionCoord}
+            />
             <button data-testid="add" onClick={addCaption}>
               +
             </button>

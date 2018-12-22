@@ -1,5 +1,7 @@
 import { Meme as MemeModel, TextBox } from 'memes-graph'
 import React from 'react'
+import { ConnectDropTarget, DropTarget, XYCoord } from 'react-dnd'
+import ItemTypes from '../dnd-types'
 import { Indexed } from '../utils/types'
 import Caption from './Caption'
 import MemeImage from './MemeImage'
@@ -10,7 +12,7 @@ export interface MemeProps {
   onMemeClick?(memeId: string): void
 }
 
-const Meme: React.FunctionComponent<MemeProps> = ({
+export const Meme: React.FunctionComponent<MemeProps> = ({
   meme,
   captions = [],
   onMemeClick
@@ -31,4 +33,46 @@ const Meme: React.FunctionComponent<MemeProps> = ({
   </div>
 )
 
-export default Meme
+interface DropTargetMemeProps {
+  updateCaptionCoord(index: number, coord: XYCoord): void
+}
+
+interface CollectedDropTargetMemeProps {
+  connectDropTarget: ConnectDropTarget
+}
+
+export const DropTargetMeme = DropTarget<
+  MemeProps & DropTargetMemeProps,
+  CollectedDropTargetMemeProps
+>(
+  ItemTypes.Caption,
+  {
+    drop(props, monitor, component) {
+      if (!component) {
+        return
+      }
+      const item = monitor.getItem()
+      const delta = monitor.getDifferenceFromInitialOffset() as XYCoord
+      const left = Math.round(item.x + delta.x)
+      const top = Math.round(item.y + delta.y)
+
+      props.updateCaptionCoord(item.index, { x: top, y: left })
+    }
+  },
+  connect => ({
+    connectDropTarget: connect.dropTarget()
+  })
+)(
+  class extends React.Component<
+    MemeProps & DropTargetMemeProps & CollectedDropTargetMemeProps
+  > {
+    public render() {
+      const { connectDropTarget, ...props } = this.props
+      return connectDropTarget!(
+        <div>
+          <Meme {...props} />
+        </div>
+      )
+    }
+  }
+)
