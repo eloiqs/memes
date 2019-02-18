@@ -1,19 +1,7 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This package is based off my [lean-react-typescript-starter](https://github.com/eloiqs/lean-react-typescript-starter)
 
-# React Starter
+# Pulling changes from the starter
 
-This starter includes:
-
-- Native CRA typescript setup
-- Prettier
-- Tslint
-- Husky + lint-staged for running tslint and prettier on commits
-
-# Requirements
-
-- Yarn
-
-# Upgrading dependencies
-
-- For CRA see: https://github.com/facebook/create-react-app/releases
-- For other dependencies use `yarn run upgrade-interactive`
+- Add the starter as a remote
+- Fetch the latest changes
+- Run `git subtree merge --prefix=packages/memes-client lean-react-typescript-starter/master -m \"Merge lean-react-typescript-starter/master into packages/memes-client subtree\"`
