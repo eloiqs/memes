@@ -12,3 +12,8 @@ This starter includes:
 # Requirements
 
 - Yarn
+
+# Upgrading dependencies
+
+- For CRA see: https://github.com/facebook/create-react-app/releases
+- For other dependencies use `yarn run upgrade-interactive`

@@ -12,8 +12,8 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "lib": ["es2017", "dom"],
-    "jsx": "preserve"
+    "jsx": "preserve",
+    "lib": ["dom", "dom.iterable", "esnext"]
   },
   "include": ["src"]
 }
