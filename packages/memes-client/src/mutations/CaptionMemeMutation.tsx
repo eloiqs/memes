@@ -12,11 +12,13 @@ export const CAPTION_MEME = gql`
   }
 `
 
-export type CaptionMemeData = {
+export interface CaptionMemeData {
   captionMeme: CaptionMemeResponse
 }
 
-export type CaptionMemeVariables = { data: CaptionMemeInput }
+export interface CaptionMemeVariables {
+  data: CaptionMemeInput
+}
 
 const CaptionMemeMutation: ExtandedAppMutation<
   CaptionMemeData,

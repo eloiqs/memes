@@ -15,18 +15,22 @@ export interface AppMutationProps<Data, Variables> {
   ) => ReactNode
 }
 
-export default class AppMutation<
-  Data = null,
-  Variables = null
-> extends React.Component<
-  Omit<MutationProps<Data, Variables>, 'children'> &
-    AppMutationProps<Data, Variables>
+type Props<Data, Variables> = Omit<MutationProps<Data, Variables>, 'children'> &
+  AppMutationProps<Data, Variables>
+
+export default class AppMutation<Data, Variables> extends React.Component<
+  Props<Data, Variables>
 > {
-  render() {
+  public render() {
     const { children, ...queryProps } = this.props
 
     return (
-      <Mutation<Data, Variables> {...queryProps}>
+      <Mutation<Data, Variables>
+        {...queryProps as JSX.LibraryManagedAttributes<
+          typeof Mutation,
+          Props<Data, Variables>
+        >}
+      >
         {(
           mutateFn: MutationFn<Data, Variables>,
           result: MutationResult<Data>

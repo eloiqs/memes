@@ -15,8 +15,10 @@ export const MEMES_QUERY = gql`
   }
 `
 
-const MemesQuery: ExtandedAppQuery<{ memes: Meme[] }> = ({ children }) => (
-  <AppQuery<{ memes: Meme[] }> query={MEMES_QUERY}>{children}</AppQuery>
+const MemesQuery: ExtandedAppQuery<{ memes: Meme[] }, null> = ({
+  children
+}) => (
+  <AppQuery<{ memes: Meme[] }, null> query={MEMES_QUERY}>{children}</AppQuery>
 )
 
 export default MemesQuery

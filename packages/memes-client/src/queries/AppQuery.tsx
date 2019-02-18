@@ -16,28 +16,34 @@ export interface AppQueryProps<Data, Variables> {
   renderNoData?: (result: QueryResult<Data, Variables>) => ReactNode
 }
 
-export class AppQuery<Data = null, Variables = null> extends React.Component<
-  Omit<QueryProps<Data, Variables>, 'children'> & AppQueryProps<Data, Variables>
+type Props<Data, Variables> = Omit<QueryProps<Data, Variables>, 'children'> &
+  AppQueryProps<Data, Variables>
+
+export class AppQuery<Data, Variables> extends React.Component<
+  Props<Data, Variables>
 > {
-  defaultRenderNetworkStatus(networkStatus: NetworkStatus) {
+  public defaultRenderNetworkStatus(networkStatus: NetworkStatus) {
     if (networkStatus === NetworkStatus.loading) {
       return <>...Loading</>
     }
     return null
   }
 
-  defaultRenderError(_error: Error, result: QueryResult<Data, Variables>) {
+  public defaultRenderError(
+    error: Error,
+    result: QueryResult<Data, Variables>
+  ) {
     if (!result.data) {
       return <>Error</>
     }
     return null
   }
 
-  defaultRenderNoData() {
+  public defaultRenderNoData() {
     return <>No Data</>
   }
 
-  render() {
+  public render() {
     const {
       children,
       renderNetworkStatus,
@@ -47,7 +53,12 @@ export class AppQuery<Data = null, Variables = null> extends React.Component<
     } = this.props
 
     return (
-      <Query<Data, Variables> {...queryProps}>
+      <Query<Data, Variables>
+        {...queryProps as JSX.LibraryManagedAttributes<
+          typeof Query,
+          Props<Data, Variables>
+        >}
+      >
         {(result: QueryResult<Data, Variables>) => {
           const networkStatusNode = (renderNetworkStatus ||
             this.defaultRenderNetworkStatus)(result!.networkStatus, result)
