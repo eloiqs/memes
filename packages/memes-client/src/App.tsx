@@ -1,7 +1,5 @@
 import { RouteComponentProps, Router } from '@reach/router'
 import React from 'react'
-import { DragDropContext } from 'react-dnd'
-import HTML5Backend from 'react-dnd-html5-backend'
 import { createGlobalStyle } from 'styled-components'
 import MemeEditor from './components/MemeEditor'
 import Memes from './components/Memes'
@@ -42,4 +40,4 @@ export const App = () => (
   </>
 )
 
-export default DragDropContext(HTML5Backend)(App)
+export default App
