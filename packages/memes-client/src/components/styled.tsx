@@ -1,3 +1,4 @@
+import { XYCoord } from 'react-dnd'
 import styled from 'styled-components'
 
 export interface BackgroundImageProps {
@@ -18,16 +19,26 @@ export const BackgroundImage = styled.div<BackgroundImageProps>`
 `
 
 export interface CaptionProps {
+  delta?: XYCoord | null
   x?: number
   y?: number
-  opacity?: number
+  children: string
 }
 
-export const Caption = styled.div<CaptionProps>`
+export const Caption = styled.div.attrs<CaptionProps>(
+  ({ delta }) =>
+    delta !== undefined && {
+      style: !delta
+        ? { display: 'none' }
+        : {
+            transform: `translate(${delta.x}px, ${delta.y}px)`,
+            WebkitTransform: `translate(${delta.x}px, ${delta.y}px)`
+          }
+    }
+)<CaptionProps>`
   position: absolute;
   cursor: move;
   top: ${props => (props.y || 0) + 'px'};
   left: ${props => (props.x || 0) + 'px'};
-  opacity: ${props => (props.opacity === undefined ? 1 : props.opacity)}
   font-family: impact;
 `
