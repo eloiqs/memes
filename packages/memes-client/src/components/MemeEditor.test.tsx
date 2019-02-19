@@ -96,3 +96,42 @@ it('can add, edit and remove captions', async () => {
   fireEvent.click(removeBtn!)
   expect(queryByTestId('caption-1')).toBeNull()
 })
+
+it('can drag captions around', async () => {
+  const { queryByTestId } = render(
+    <MockedProvider mocks={mocks} addTypename={false}>
+      <MemeEditor id="meme" />
+    </MockedProvider>
+  )
+
+  const addBtn = await waitForElement(() => queryByTestId('add'))
+  fireEvent.click(addBtn!)
+  const captionInput = await waitForElement(() =>
+    queryByTestId('caption-1-input')
+  )
+  fireEvent.change(captionInput!, { target: { value: 'caption 1' } })
+  const caption1 = await waitForElement(() => queryByTestId('caption-1'))
+  expect(caption1).toBeVisible()
+  expect(caption1).toHaveAttribute('x', '50')
+  expect(caption1).toHaveAttribute('y', '20')
+
+  fireEvent(
+    caption1!,
+    Object.assign(new Event('dragstart', { bubbles: true }), {
+      clientX: 0,
+      clientY: 0,
+      dataTransfer: {}
+    })
+  )
+  fireEvent(
+    caption1!,
+    Object.assign(new Event('drop', { bubbles: true }), {
+      clientX: 10,
+      clientY: 50,
+      dataTransfer: {}
+    })
+  )
+
+  expect(caption1).toHaveAttribute('x', '60')
+  expect(caption1).toHaveAttribute('y', '70')
+})

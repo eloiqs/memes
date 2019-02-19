@@ -2,10 +2,15 @@ import { Redirect, RouteComponentProps } from '@reach/router'
 import { XYCoord } from 'dnd-core'
 import { TextBox } from 'memes-graph'
 import React, { useState } from 'react'
+import { DragDropContext } from 'react-dnd'
+import HTML5Backend from 'react-dnd-html5-backend'
 import CaptionMemeMutation from '../mutations/CaptionMemeMutation'
 import MemesQuery from '../queries/MemesQuery'
 import { Indexed } from '../utils/types'
-import { DropTargetMeme, Meme } from './Meme'
+import DraggableCaption from './DraggableCaption'
+import DropTargetableMeme from './DropTargetableMeme'
+import Meme from './Meme'
+import MemeDragLayer from './MemeDragLayer'
 
 interface MemeEditorParams {
   id: string
@@ -80,11 +85,26 @@ const MemeEditor: React.FunctionComponent<
         return (
           <div>
             <h2>Meme Editor</h2>
-            <DropTargetMeme
-              meme={meme}
-              captions={state.captions}
-              updateCaptionCoord={updateCaptionCoord}
-            />
+            <h3>{meme.name}</h3>
+            <div style={{ position: 'relative', width: 250, height: 250 }}>
+              <DropTargetableMeme
+                meme={meme}
+                captions={state.captions}
+                updateCaptionCoord={updateCaptionCoord}
+              >
+                {state.captions.map(caption => (
+                  <DraggableCaption
+                    key={caption.index}
+                    index={caption.index}
+                    x={caption.x}
+                    y={caption.y}
+                  >
+                    {caption.text}
+                  </DraggableCaption>
+                ))}
+              </DropTargetableMeme>
+              <MemeDragLayer />
+            </div>
             <button data-testid="add" onClick={addCaption}>
               +
             </button>
@@ -130,15 +150,18 @@ const MemeEditor: React.FunctionComponent<
                     {result.loading && <>...Loading</>}
                     {result.error && <>Error: {result.error.message}</>}
                     {response && response.url && (
-                      <Meme
-                        meme={{
-                          url: response.url,
-                          name: 'your meme',
-                          id: 'some fake id',
-                          width: meme.width,
-                          height: meme.height
-                        }}
-                      />
+                      <>
+                        <h3>your meme</h3>
+                        <Meme
+                          meme={{
+                            url: response.url,
+                            name: 'your meme',
+                            id: 'some fake id',
+                            width: meme.width,
+                            height: meme.height
+                          }}
+                        />
+                      </>
                     )}
                   </>
                 )
@@ -151,4 +174,4 @@ const MemeEditor: React.FunctionComponent<
   )
 }
 
-export default MemeEditor
+export default DragDropContext(HTML5Backend)(MemeEditor)
