@@ -42,3 +42,11 @@ export const Caption = styled.div.attrs<CaptionProps>(
   left: ${props => (props.x || 0) + 'px'};
   font-family: impact;
 `
+
+export const MemeDragLayer = styled.div`
+  position: absolute;
+  pointer-events: none;
+  z-index: 100;
+  width: 250px;
+  height: 250px;
+`
