@@ -3,7 +3,6 @@ import { MockedProvider } from 'react-apollo/test-utils'
 import { fireEvent, render, waitForElement } from 'react-testing-library'
 import { App } from './App'
 import { MEMES_QUERY } from './queries/MemesQuery'
-import { wrapInTestContext } from './test-utils'
 
 const mocks = [
   {
@@ -27,10 +26,9 @@ const mocks = [
 ]
 
 it('renders a list of memes', async () => {
-  const AppWithTestContext = wrapInTestContext(App)
-  const { queryByText } = render(
+  const { queryByText, container } = render(
     <MockedProvider mocks={mocks} addTypename={false}>
-      <AppWithTestContext />
+      <App />
     </MockedProvider>
   )
   const meme = await waitForElement(() => queryByText('meme1')!.parentElement)
