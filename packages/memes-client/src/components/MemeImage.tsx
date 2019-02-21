@@ -19,22 +19,14 @@ const MemeImage: React.FunctionComponent<MemeImageProps> = ({
 }) => {
   const horizontalRatio = targetWidth / width
   const verticalRatio = targetHeight / height
-  if (horizontalRatio < verticalRatio) {
-    return (
-      <BackgroundImage
-        src={url}
-        width={Math.round(width * horizontalRatio)}
-        height={Math.round(height * horizontalRatio)}
-      >
-        {children}
-      </BackgroundImage>
-    )
-  }
+  const ratio =
+    horizontalRatio < verticalRatio ? horizontalRatio : verticalRatio
+
   return (
     <BackgroundImage
       src={url}
-      width={Math.round(width * verticalRatio)}
-      height={Math.round(height * verticalRatio)}
+      width={Math.round(width * ratio)}
+      height={Math.round(height * ratio)}
     >
       {children}
     </BackgroundImage>
