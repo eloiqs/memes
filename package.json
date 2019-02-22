@@ -2,9 +2,14 @@
   "name": "memes",
   "version": "0.1.0",
   "description": "memes",
-  "workspaces": [
-    "packages/*"
-  ],
+  "workspaces": {
+    "packages": [
+      "packages/*"
+    ],
+    "nohoist": [
+      "**/jest"
+    ]
+  },
   "private": true,
   "repository": {
     "type": "git",
@@ -21,6 +26,6 @@
   },
   "devDependencies": {
     "husky": "^1.2.0",
-    "lerna": "^3.6.0"
+    "lerna": "^3.13.1"
   }
 }
